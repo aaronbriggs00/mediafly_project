@@ -10,12 +10,13 @@ class ImagesController < ApplicationController
   end
 
   def create
-    @image = Image.new(image_params)
-    @image.user_id = current_user.id
-    @image.status = "processing"
+    @image = Image.new(user_id: current_user.id, status: 'processing')
+
     if @image.valid?
       @image.save
       render json: @image, status: :created
+      image_handler = ImageHandler.new(image_params[:blob], @image)
+      image_handler.save_blob
     else  
       render json: { errors: @image.errors.full_messages }, status: :bad_request
     end
