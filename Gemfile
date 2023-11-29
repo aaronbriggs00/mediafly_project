@@ -66,3 +66,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+#to write images to S3 bucket
+gem 'aws-sdk-s3', '~> 1.140'
