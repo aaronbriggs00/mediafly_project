@@ -69,3 +69,6 @@ end
 
 #to write images to S3 bucket
 gem 'aws-sdk-s3', '~> 1.140'
+gem 'active_storage_validations', '~> 1.0', '>= 1.0.4'
+gem "image_processing", "~> 1.2"
+# gem "mini_magick"
