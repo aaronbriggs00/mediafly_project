@@ -78,3 +78,6 @@ gem "image_processing", "~> 1.2"
 
 # serializers
 gem 'active_model_serializers'
+
+gem 'pry'
+gem 'pry-remote'

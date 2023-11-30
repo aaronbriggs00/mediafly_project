@@ -17,13 +17,17 @@ class ImageMutator < ApplicationService
   end
 
   def resize
-    height = @options["height"].to_f
-    width = @options["width"].to_f
-    return @image.blob.variant(resize_to_fit: [width, height]).processed.url
+    Rails.cache.fetch([@image, :resize], expires_in: 1.hour) do
+      height = @options["height"].to_f
+      width = @options["width"].to_f
+      download_url = @image.blob.variant(resize_to_fit: [width, height]).processed.url
+    end
   end
 
   def rotate
-    angle = @options["angle"].to_f
-    return @image.blob.variant(rotate: [angle]).processed.url
+    Rails.cache.fetch([@image, :rotate], expires_in: 1.hour) do
+      angle = @options["angle"].to_f
+      download_url = @image.blob.variant(rotate: [angle]).processed.url
+    end
   end
 end

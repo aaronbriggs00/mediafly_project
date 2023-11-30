@@ -27,7 +27,10 @@ class ImagesController < ApplicationController
 
   def mutate
     image = Image.find(params[:id])
-    download_url = image.fetch_mutation(mutation_params)
+    
+    if image.status == 'complete'
+      download_url = ImageMutator.call(image, mutation_params)
+    end
 
     if download_url
       render json: { image_url: download_url }, status: :ok
