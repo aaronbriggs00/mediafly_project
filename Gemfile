@@ -67,8 +67,14 @@ group :test do
   gem "selenium-webdriver"
 end
 
-#to write images to S3 bucket
+# to write images to S3 bucket
 gem 'aws-sdk-s3', '~> 1.140'
+
+# active storage file validation
 gem 'active_storage_validations', '~> 1.0', '>= 1.0.4'
+
+# image manipulation
 gem "image_processing", "~> 1.2"
-# gem "mini_magick"
+
+# serializers
+gem 'active_model_serializers'

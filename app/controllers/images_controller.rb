@@ -3,12 +3,12 @@ class ImagesController < ApplicationController
 
   def index
     @images = Image.all
-    render json: { data: @images }
+    render json: @images, each_serializer: SimpleImageSerializer
   end
 
   def show
     @image = Image.find(params[:id])
-    render json: { data: @image, download_url: @image.blob.url }
+    render json: @image, serializer: CompleteImageSerializer
   end
 
   def create
@@ -17,7 +17,7 @@ class ImagesController < ApplicationController
     if @image.valid? && valid_image
       @image.save
       render json: { data: @image }, status: :created
-      ## should create a job to handle this
+      ## should probably create a job to handle this
       ImageUploader.call(image_params[:blob], @image, {})
       ##
     else  
@@ -30,7 +30,7 @@ class ImagesController < ApplicationController
     download_url = image.fetch_mutation(mutation_params)
 
     if download_url
-      render json: { data: download_url }, status: :ok
+      render json: { image_url: download_url }, status: :ok
     else
       render json: { errors: "unprocessable mutations options, please refer to documentation for input" }, status: :bad_request
     end
