@@ -2,7 +2,8 @@ class ImagesController < ApplicationController
   before_action :authenticate_user
 
   def index
-    render json: "image#index"
+    @images = Image.all
+    render json: { data: @images }
   end
 
   def show
@@ -15,18 +16,34 @@ class ImagesController < ApplicationController
 
     if @image.valid? && valid_image
       @image.save
-      render json: { data: [@image, image_params] }, status: :created
-      image_uploader = ImageUploader.new(image_params[:blob], @image, {})
-      image_uploader.save_blob
+      render json: { data: @image }, status: :created
+      ## should create a job to handle this
+      ImageUploader.call(image_params[:blob], @image, {})
+      ##
     else  
       render json: { errors: @image.errors.full_messages }, status: :bad_request
+    end
+  end
+
+  def mutate
+    image = Image.find(params[:id])
+    download_url = image.fetch_mutation(mutation_params)
+
+    if download_url
+      render json: { data: download_url }, status: :ok
+    else
+      render json: { errors: "unprocessable mutations options, please refer to documentation for input" }, status: :bad_request
     end
   end
 
   private
 
   def image_params
-    params.permit(:blob)    
+    params.permit(:blob)
+  end
+
+  def mutation_params
+    params.require(:options).permit(:transformation, :angle, :height, :width)
   end
 
   def valid_image
