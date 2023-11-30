@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
         User.find_by(id: decoded_token[0]["user_id"])
       rescue JWT::ExpiredSignature
         nil
+      rescue JWT::DecodeError
+        nil
       end
     end
   end
@@ -23,6 +25,26 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user
     unless current_user
+      render json: {}, status: :unauthorized
+    end
+  end
+
+  def find_api_key
+    auth_headers = request.headers["Authorization"]
+    if auth_headers.present? && auth_headers[/(?<=\A(Bearer ))\S+\z/]
+      token = auth_headers[/(?<=\A(Bearer ))\S+\z/]
+      current_api_key = ApiKey.find_by_token(token)
+    end
+  end
+
+  def authenticate_by_api_key
+    unless find_api_key
+      render json: {}, status: :unauthorized
+    end
+  end
+
+  def flexible_authenticate
+    unless current_user || find_api_key
       render json: {}, status: :unauthorized
     end
   end

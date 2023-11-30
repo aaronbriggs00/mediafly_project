@@ -1,5 +1,6 @@
 class ImagesController < ApplicationController
-  before_action :authenticate_user
+  before_action :authenticate_user, except: [:index, :mutate]
+  before_action :flexible_authenticate, only: [:mutate]
 
   def index
     @images = Image.all
