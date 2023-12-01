@@ -1,9 +1,6 @@
 require 'rails_helper'
 
-# password = Faker::Internet.password
-# user = User.create(username: Faker::Name.first_name, password: password, password_confirmation: password)
-
-RSpec.describe Image, :type => :model do
+RSpec.describe Image, type: :model do
   describe "Validations" do
     before(:all) do
       password = Faker::Internet.password

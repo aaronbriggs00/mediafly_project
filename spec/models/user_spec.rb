@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe User, :type => :model do
+RSpec.describe User, type: :model do
   password = Faker::Internet.password
   subject { described_class.new(password: password, password_confirmation: password, username: Faker::Name.first_name) }
 

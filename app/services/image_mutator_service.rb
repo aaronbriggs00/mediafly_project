@@ -5,8 +5,7 @@ class ImageMutatorService < ApplicationService
   end
 
   def call
-    binding.pry
-    if @image.blob.url
+    if @image.blob.attached?
       transformation = @options["transformation"]
       case transformation
         when "rotate"
