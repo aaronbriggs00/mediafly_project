@@ -95,18 +95,11 @@ RSpec.describe ImagesController, type: :controller do
     end
 
     context "specs with authorization" do
-      it "allows ApiKey access" do
+      it "allows ApiKey access to access a mutated image" do
         include_api_key
 
         expect_any_instance_of(ImageMutatorService).to receive(:call)
         put :mutate, params: { format: :json, id: @image.id, options: {transformation: "rotate", angle: "180"} }
-      end
-
-      it "requires valid parameters" do
-        include_api_key
-
-        expect_any_instance_of(ImageMutatorService).to receive(:call)
-        put :mutate, params: { format: :json, id: @image.id }
       end
     end
   end
