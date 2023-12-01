@@ -6,11 +6,12 @@ class ImageUploader < ApplicationService
   end
 
   def call
-    @image.blob.attach(@blob)
-    if @image.blob.attached?
-      @image.update(status: 'complete')
-    else
+    begin
+      @image.blob.attach(@blob)
+      @image.blob.attached? ? @image.update(status: 'complete') : @image.update(status: 'failed')
+    rescue Aws::S3::Errors::NoSuchBucket
       @image.update(status: 'failed')
     end
   end
 end
+

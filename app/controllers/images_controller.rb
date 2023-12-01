@@ -1,5 +1,5 @@
 class ImagesController < ApplicationController
-  before_action :authenticate_user, except: [:index, :mutate]
+  before_action :authenticate_user, except: [:mutate]
   before_action :flexible_authenticate, only: [:mutate]
 
   def index
@@ -18,9 +18,7 @@ class ImagesController < ApplicationController
     if @image.valid? && valid_image
       @image.save
       render json: { data: @image }, status: :created
-      ## should probably create a job to handle this
       ImageUploader.call(image_params[:blob], @image, {})
-      ##
     else  
       render json: { errors: @image.errors.full_messages }, status: :bad_request
     end
@@ -51,7 +49,7 @@ class ImagesController < ApplicationController
   end
 
   def valid_image
-    valid_types = ['image/png', 'image/jpeg', 'image/tiff']
+    valid_types = ['image/png', 'image/jpeg', 'image/tiff', 'image/avif']
     if image_params[:blob].respond_to?(:content_type) && valid_types.include?(image_params[:blob].content_type)
       return true
     else
