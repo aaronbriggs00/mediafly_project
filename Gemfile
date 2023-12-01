@@ -67,7 +67,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-# to write images to S3 bucket
+# write/read images in S3 bucket
 gem 'aws-sdk-s3', '~> 1.140'
 
 # active storage file validation
@@ -78,6 +78,14 @@ gem "image_processing", "~> 1.2"
 
 # serializers
 gem 'active_model_serializers'
+
+# testing
+group :development, :test do
+  gem 'rspec-rails', ">= 3.9.0"
+  gem 'database_cleaner-active_record'
+  gem 'factory_bot_rails'
+  gem 'faker'
+end
 
 gem 'pry'
 gem 'pry-remote'

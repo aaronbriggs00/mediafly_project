@@ -1,18 +1,23 @@
-class ImageMutator < ApplicationService
+class ImageMutatorService < ApplicationService
   def initialize(image, options)
     @image = image
     @options = options
   end
 
   def call
-    transformation = @options["transformation"]
-    case transformation
-      when "rotate"
-        return rotate()
-      when "resize"
-        return resize()
-      else
-        return false
+    binding.pry
+    if @image.blob.url
+      transformation = @options["transformation"]
+      case transformation
+        when "rotate"
+          return rotate()
+        when "resize"
+          return resize()
+        else
+          return false
+      end
+    else
+      nil
     end
   end
 

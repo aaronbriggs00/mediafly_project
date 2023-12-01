@@ -1,4 +1,4 @@
-class ImageUploader < ApplicationService
+class ImageUploaderService < ApplicationService
   def initialize(blob, image, options)
     @blob = blob
     @image = image

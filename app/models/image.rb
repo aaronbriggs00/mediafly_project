@@ -3,6 +3,8 @@ class Image < ApplicationRecord
   has_one_attached :blob
 
   def fetch_url
-    @fetch_url ||= self.blob.url
+    if self.status == "complete"
+      @fetch_url ||= self.blob.url
+    end
   end
 end

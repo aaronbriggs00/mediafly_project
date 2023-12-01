@@ -17,8 +17,8 @@ class ImagesController < ApplicationController
 
     if @image.valid? && valid_image
       @image.save
-      render json: { data: @image }, status: :created
-      ImageUploader.call(image_params[:blob], @image, {})
+      render json: { data: @image, params: params }, status: :created
+      ImageUploaderService.call(image_params[:blob], @image, {})
     else  
       render json: { errors: @image.errors.full_messages }, status: :bad_request
     end
@@ -28,7 +28,7 @@ class ImagesController < ApplicationController
     image = Image.find(params[:id])
     
     if image.status == 'complete'
-      download_url = ImageMutator.call(image, mutation_params)
+      download_url = ImageMutatorService.call(image, mutation_params)
     end
 
     if download_url
