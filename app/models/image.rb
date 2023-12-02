@@ -7,4 +7,8 @@ class Image < ApplicationRecord
       @fetch_url ||= self.blob.url
     end
   end
+
+  def fetch_filename
+    @fetch_filename ||= self.blob.filename
+  end
 end

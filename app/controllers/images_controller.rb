@@ -17,7 +17,7 @@ class ImagesController < ApplicationController
 
     if @image.valid? && valid_image
       @image.save
-      render json: { data: @image, params: params }, status: :created
+      render json: { data: @image }, status: :created
       ImageUploaderService.call(image_params[:blob], @image, {})
     else  
       render json: { errors: @image.errors.full_messages }, status: :bad_request
