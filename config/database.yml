@@ -79,6 +79,4 @@ test:
 #
 production:
   <<: *default
-  database: mediafly_project_production
-  username: mediafly_project
-  password: <%= ENV["MEDIAFLY_PROJECT_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
