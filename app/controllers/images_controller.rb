@@ -31,7 +31,10 @@ class ImagesController < ApplicationController
     image = Image.find(params[:id])
 
     if image.status == 'complete'
-      download_url = ImageMutatorService.call(image, mutation_params)
+      cache_key = [image, mutation_params]
+      download_url = Rails.cache.fetch(cache_key, expires_in: 5.minutes) do
+        ImageMutatorService.call(image, mutation_params)
+      end
     end
 
     if download_url

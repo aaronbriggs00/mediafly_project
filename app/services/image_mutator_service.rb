@@ -23,19 +23,13 @@ class ImageMutatorService < ApplicationService
   end
 
   def resize
-    cache_key = [@image, @options[:transformation], @options[:height], @options[:width]]
-    Rails.cache.fetch(cache_key, expires_in: 5.minutes) do
-      height = @options[:height].to_f
-      width = @options[:width].to_f
-      download_url = @image.blob.variant(resize_to_fill: [width, height]).processed.url
-    end
+    height = @options[:height].to_f
+    width = @options[:width].to_f
+    download_url = @image.blob.variant(resize_to_fill: [width, height]).processed.url
   end
 
   def rotate
-    cache_key = [@image, @options[:transformation], @options[:angle]]
-    Rails.cache.fetch([@image, :rotate], expires_in: 5.minutes) do
-      angle = @options[:angle].to_f
-      download_url = @image.blob.variant(rotate: [angle]).processed.url
-    end
+    angle = @options[:angle].to_f
+    download_url = @image.blob.variant(rotate: [angle]).processed.url
   end
 end
