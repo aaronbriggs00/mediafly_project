@@ -31,8 +31,8 @@ RSpec.describe ImageMutatorService, type: :model do
 
       it "should call upon the correct mutation method" do
         options = {
-          "transformation" => "rotate",
-          "angle" => "90"
+          transformation: "rotate",
+          angle: "90"
         }
         mutator = ImageMutatorService.new(@image, options)
         expect(mutator).to receive(:rotate)
