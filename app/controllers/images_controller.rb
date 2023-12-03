@@ -26,7 +26,7 @@ class ImagesController < ApplicationController
 
   def mutate
     image = Image.find(params[:id])
-    
+
     if image.status == 'complete'
       download_url = ImageMutatorService.call(image, mutation_params)
     end
