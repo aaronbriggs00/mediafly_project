@@ -9,7 +9,7 @@ class ImageUploaderService < ApplicationService
     begin
       @image.blob.attach(@blob)
       @image.blob.attached? ? @image.update(status: 'complete') : @image.update(status: 'failed')
-    rescue Aws::S3::Errors::NoSuchBucket
+    rescue
       @image.update(status: 'failed')
     end
   end

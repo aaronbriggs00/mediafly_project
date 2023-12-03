@@ -43,6 +43,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # authenticates by either ApiKey or session token 
   def flexible_authenticate
     unless current_user || find_api_key
       render json: {}, status: :unauthorized

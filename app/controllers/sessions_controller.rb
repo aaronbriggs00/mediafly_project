@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  #returns a bearer token for a successful login
   def create
     user = User.find_by(username: params[:username])
     
