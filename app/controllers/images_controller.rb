@@ -45,7 +45,7 @@ class ImagesController < ApplicationController
   end
 
   def mutation_params
-    params.require(:options).permit(:transformation, :angle, :height, :width)
+    params.permit(:transformation, :angle, :height, :width)
   end
 
   def valid_image

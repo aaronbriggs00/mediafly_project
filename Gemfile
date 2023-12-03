@@ -61,6 +61,9 @@ group :development do
   # gem "spring"
 end
 
+# CORS configuration
+gem 'rack-cors'
+
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
