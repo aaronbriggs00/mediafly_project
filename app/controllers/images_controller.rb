@@ -4,11 +4,13 @@ class ImagesController < ApplicationController
 
   def index
     @images = Image.all
+
     render json: @images, each_serializer: SimpleImageSerializer
   end
 
   def show
     @image = Image.find(params[:id])
+    
     render json: @image, serializer: CompleteImageSerializer
   end
 
@@ -18,12 +20,13 @@ class ImagesController < ApplicationController
     if @image.valid? && valid_image
       @image.save
       render json: { data: @image }, status: :created
-      ImageUploaderService.call(image_params[:blob], @image, {})
+      ImageUploaderService.call(image_params, @image, {})
     else  
       render json: { errors: @image.errors.full_messages }, status: :bad_request
     end
   end
 
+  # non RESTful route here designed to return the download_url of an image mutation, or create it if it doesn't exist.
   def mutate
     image = Image.find(params[:id])
 
@@ -34,14 +37,14 @@ class ImagesController < ApplicationController
     if download_url
       render json: { image_url: download_url }, status: :ok
     else
-      render json: { errors: "unprocessable mutations options, please refer to documentation for input" }, status: :bad_request
+      render json: { errors: "unprocessable mutation, please refer to documentation for input" }, status: :bad_request
     end
   end
 
   private
 
   def image_params
-    params.permit(:blob)
+    params.require(:blob)
   end
 
   def mutation_params
@@ -50,7 +53,7 @@ class ImagesController < ApplicationController
 
   def valid_image
     valid_types = ['image/png', 'image/jpeg', 'image/tiff', 'image/avif']
-    if image_params[:blob].respond_to?(:content_type) && valid_types.include?(image_params[:blob].content_type)
+    if image_params.respond_to?(:content_type) && valid_types.include?(image_params.content_type)
       return true
     else
       @image.errors.add(:blob, "file must be a jpeg, jpg, png, or tiff")
