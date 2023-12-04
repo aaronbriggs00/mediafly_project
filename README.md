@@ -12,7 +12,7 @@ This app uses the image_processing gem. It is a ruby wrapper for the vips librar
 
 (I'm running MacOS 12.7, and this install did not take long. Maybe a few minutes. But when I tried to install it on a different machine running 11.x, that was a terrible idea - hours installing its dependencies and then a failure anyway.)
 
-There's an error that can occur because of added security to restrict multithreading in macOS High Sierra and later versions of macOS (10.x+). Optional, but recommended: either run  `export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`  in your directory, or add  `OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`  to your .bash_profile (this is less recommended).  [here's a link to issue](https://github.com/rails/rails/issues/38560, "issue")
+There's an error that can occur because of added security to restrict multithreading in macOS High Sierra and later versions of macOS (10.x+). Optional, but recommended: either run  `export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`  in your directory, or add  `OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`  to your .bash_profile (this is less recommended).  [Here's a link to the issue.](https://github.com/rails/rails/issues/38560, "issue")
 
 ## Configuration
 
